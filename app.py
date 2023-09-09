@@ -8,6 +8,8 @@ from tensorflow.keras.models import load_model
 import pickle, numpy as np
 
 st.set_page_config(layout="wide")
+px.set_mapbox_access_token(st.secrets['mapbox'])
+
 
 data = pd.read_parquet('all_with_avg.parquet.gz')
 
