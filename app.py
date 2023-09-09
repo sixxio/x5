@@ -7,7 +7,7 @@ import random
 from tensorflow.keras.models import load_model
 import pickle, numpy as np
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout = 'wide', page_title = 'AI Talent Hub | X5', page_icon = '🛒')
 px.set_mapbox_access_token(st.secrets['mapbox'])
 
 
