@@ -15,7 +15,8 @@ data = pd.read_parquet('all_with_avg.parquet.gz')
 
 st.title('Статистика по магазинам сети Пятёрочка в городе Санкт-Петербург')
 
-a1,b1,c1 = st.tabs(['Карта', 'Прогнозирование недостающей оценки', 'Проводник по отзывам'])
+# a1,b1,c1 = st.tabs(['Карта', 'Прогнозирование недостающей оценки', 'Проводник по отзывам'])
+a1,b1 = st.tabs(['Карта', 'Прогнозирование недостающей оценки'])
 
 with a1:
 
@@ -68,19 +69,19 @@ with b1:
         rate = np.argmax(model.predict(tokenized_review)) + 1
         st.write('Вероятнее всего, пользователь, оставивший этот отзыв, оценил магазин Пятёрочка в ' + ':star:'*rate + ' звёзд.')
 
-with c1:
-    a2,b2 = st.columns([4,1])
-    with b2:
-        rate_1 = st.selectbox('Показать только отзывы', ['Все'] + [f'С оценкой ниже {i}' for i in range(5,2,-1)])
-        rate_1 = 6 if rate_1 == 'Все' else int(rate_1[-1]) 
+# with c1:
+#     a2,b2 = st.columns([4,1])
+#     with b2:
+#         rate_1 = st.selectbox('Показать только отзывы', ['Все'] + [f'С оценкой ниже {i}' for i in range(5,2,-1)])
+#         rate_1 = 6 if rate_1 == 'Все' else int(rate_1[-1]) 
 
-    with a2:
-        reviews = pd.read_parquet('all_reviews.parquet.gz').sort_values(by='date', ascending=False)
-        reviews = reviews[reviews['rate'] < rate_1]
-        for i in range(25):
-            cur_review = reviews.iloc[[i]]
-            with st.chat_message('human'):
-                color = {1: ':red[', 2: ':red[', 3: ':red[', 4: ':orange[', 5:':green['}
-                st.write(cur_review.iloc[0].date.strftime('%H:%M %d.%m.%Y'), '|', f"{data[data['id'] == cur_review.iloc[0].id].iloc[0]['address']}", '|', ':star:'*cur_review.iloc[0].rate)
-                st.write(color[cur_review.iloc[0].rate] + cur_review.iloc[0].text.replace('[','').replace(']','') + ']')
+#     with a2:
+#         reviews = pd.read_parquet('all_reviews.parquet.gz').sort_values(by='date', ascending=False)
+#         reviews = reviews[reviews['rate'] < rate_1]
+#         for i in range(25):
+#             cur_review = reviews.iloc[[i]]
+#             with st.chat_message('human'):
+#                 color = {1: ':red[', 2: ':red[', 3: ':red[', 4: ':orange[', 5:':green['}
+#                 st.write(cur_review.iloc[0].date.strftime('%H:%M %d.%m.%Y'), '|', f"{data[data['id'] == cur_review.iloc[0].id].iloc[0]['address']}", '|', ':star:'*cur_review.iloc[0].rate)
+#                 st.write(color[cur_review.iloc[0].rate] + cur_review.iloc[0].text.replace('[','').replace(']','') + ']')
 
